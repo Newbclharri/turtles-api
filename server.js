@@ -5,12 +5,12 @@ require("dotenv").config()
 
 const express = require("express");
 const mongoose = require("./models/connection");
-const Turtle = require("./models/Turtles");
+const Turtle = require("./models/Turtle");
 const turtles = require("./models/turtlesData");
 
 //Create Express App to handle server functions
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 ////////////////////
 // MIDDLEWARE
@@ -25,8 +25,12 @@ app.get("/", (req, res)=>(
 
 
 app.get("/turtles/seed", async (req, res)=>{
-    await Turtle.deleteMany({}).catch((err)=>res.send(err));
-    await Turtle.create(turtles).catch((err)=>res.send(err));
+    try{
+        await Turtle.deleteMany({});
+        await Turtle.create(turtles);
+    }catch(err){
+        res.send(err);
+    }    
     const allTurtles = await Turtle.find({}).catch((err)=>res.send(err));
     res.json(allTurtles);    
 });
@@ -37,8 +41,14 @@ app.get("/turtles/seed", async (req, res)=>{
 
 //index
 app.get("/turtles", async (req, res)=>{
-    const allTurtles = await Turtle.find({}).catch(err=>res.send(err));
-    res.json(allTurtles);
+    try{
+        const allTurtles = await Turtle.find({}).catch(err=>res.send(err));
+        res.json(allTurtles);
+    }catch(err){
+        res.send(err);
+    }
+    
+    
 });
 
 //delete

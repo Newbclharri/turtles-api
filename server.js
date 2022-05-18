@@ -5,6 +5,7 @@ require("dotenv").config()
 
 const express = require("express");
 const mongoose = require("./models/connection");
+const cors = require("cors");
 const Turtle = require("./models/Turtle");
 const turtles = require("./models/turtlesData");
 
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3000;
 // MIDDLEWARE
 /////////////////////
 app.use(express.json());
+app.use(cors);
 //////////////////
 // ROUTES
 /////////////////

@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 // MIDDLEWARE
 /////////////////////
 app.use(express.json());
-app.use(cors);
+app.use(cors());
 //////////////////
 // ROUTES
 /////////////////
